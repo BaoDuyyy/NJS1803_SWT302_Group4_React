@@ -61,12 +61,12 @@ function App() {
       </Navbar>
 
       <Container className="mt-5">
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-center">
           <Col md={4}>
             <h2 className="text-center">Todo List</h2>
             <Form>
               <Row className="mb-3">
-                <Col xs={9}>
+                <Col xs={9} className="pe-0">
                   <Form.Control
                     type="text"
                     placeholder="Add new todo..."
@@ -81,16 +81,17 @@ function App() {
                 </Col>
               </Row>
             </Form>
+            
             <ListGroup>
               {tasks.map((t, index) => (
                 <ListGroup.Item
                   key={index}
                   className="d-flex justify-content-between align-items-center"
                 >
-                  <div className="d-flex align-items-center w-100">
-                    <Form.Check 
-                      type="checkbox" 
-                      checked={t.completed} 
+                  <div className="d-flex align-items-center w-100 pe-3">
+                    <Form.Check
+                      type="checkbox"
+                      checked={t.completed}
                       onChange={() => toggleTask(index)}
                       className="me-2"
                     />
