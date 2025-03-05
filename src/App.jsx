@@ -1,7 +1,8 @@
 import { Button, Form, ListGroup, Container, Row, Col, Navbar, Nav, NavDropdown } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from "react";
-import { PencilSquare, Trash } from "react-bootstrap-icons";
+import React from 'react';
+import TodoItem from './components/TodoItem';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -72,10 +73,11 @@ function App() {
                     placeholder="Add new todo..."
                     value={task}
                     onChange={(e) => setTask(e.target.value)}
+                    data-testid="task-input"
                   />
                 </Col>
                 <Col xs={3}>
-                  <Button variant="primary" onClick={addTask} className="w-100">
+                  <Button variant="primary" onClick={addTask} className="w-100" data-testid="add-button">
                     + Add
                   </Button>
                 </Col>
@@ -84,44 +86,18 @@ function App() {
             
             <ListGroup>
               {tasks.map((t, index) => (
-                <ListGroup.Item
+                <TodoItem
                   key={index}
-                  className="d-flex justify-content-between align-items-center"
-                >
-                  <div className="d-flex align-items-center w-100 pe-3">
-                    <Form.Check
-                      type="checkbox"
-                      checked={t.completed}
-                      onChange={() => toggleTask(index)}
-                      className="me-2"
-                    />
-                    {editIndex === index ? (
-                      <Form.Control
-                        type="text"
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        onBlur={() => saveEdit(index)}
-                        autoFocus
-                      />
-                    ) : (
-                      <span
-                        className={t.completed ? "text-decoration-line-through" : ""}
-                        onDoubleClick={() => startEditing(index)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {t.text}
-                      </span>
-                    )}
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <Button variant="outline-secondary" size="sm" onClick={() => startEditing(index)} className="me-2">
-                      <PencilSquare />
-                    </Button>
-                    <Button variant="danger" size="sm" onClick={() => removeTask(index)}>
-                      <Trash />
-                    </Button>
-                  </div>
-                </ListGroup.Item>
+                  task={t}
+                  index={index}
+                  toggleTask={toggleTask}
+                  startEditing={startEditing}
+                  saveEdit={saveEdit}
+                  removeTask={removeTask}
+                  editIndex={editIndex}
+                  editText={editText}
+                  setEditText={setEditText}
+                />
               ))}
             </ListGroup>
           </Col>
