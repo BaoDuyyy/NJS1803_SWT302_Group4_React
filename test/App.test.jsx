@@ -61,6 +61,50 @@ describe('Todo List Functionality', () => {
   });
 });
 
+describe('Todo List Updates', () => {
+  test('updates the todo list when a task is added', () => {
+    addTask('Task 1');
+    expect(screen.queryByText('Task 1')).toBeInTheDocument();
+    addTask('Task 2');
+    expect(screen.queryByText('Task 2')).toBeInTheDocument();
+  });
+});
+
+describe('Edit Mode State', () => {
+  test('enters and exits edit mode correctly', () => {
+    addTask('Task 1');
+    const editButton = screen.getByTestId('edit-button-0');
+    fireEvent.click(editButton);
+    const editInput = screen.getByTestId('edit-input-0');
+    expect(editInput).toBeInTheDocument();
+    fireEvent.change(editInput, { target: { value: 'Edited Task' } });
+    fireEvent.blur(editInput);
+    expect(screen.queryByText('Edited Task')).toBeInTheDocument();
+    expect(screen.queryByText('Task 1')).not.toBeInTheDocument();
+  });
+});
+
+describe('Alert State', () => {
+  test('shows alert when trying to add an empty task', async () => {
+    fireEvent.click(addButton);
+    const alertMessage = await screen.findByTestId('alert-message');
+    expect(alertMessage).toBeInTheDocument();
+    expect(alertMessage).toHaveTextContent('Task cannot be empty');
+  });
+
+  test('shows alert when trying to save an edited task with empty input', () => {
+    addTask('Task 1');
+    const editButton = screen.getByTestId('edit-button-0');
+    fireEvent.click(editButton);
+    const editInput = screen.getByTestId('edit-input-0');
+    fireEvent.change(editInput, { target: { value: '' } });
+    fireEvent.blur(editInput);
+    const alertMessage = screen.queryByTestId('alert-message');
+    expect(alertMessage).toBeInTheDocument();
+    expect(alertMessage).toHaveTextContent('Task cannot be empty');
+  });
+});
+
 describe('User Interactions and Edge Cases', () => {
   test('does not add a task when input is empty', () => {
     fireEvent.click(addButton);

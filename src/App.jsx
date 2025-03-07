@@ -39,6 +39,9 @@ function App() {
       const newTasks = [...tasks];
       newTasks[index].text = editText;
       setTasks(newTasks);
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Task cannot be empty");
     }
     setEditIndex(null);
   };
