@@ -108,3 +108,80 @@ test('deletes a task', () => {
   // The task should now be deleted
   expect(screen.queryByText('New Task')).not.toBeInTheDocument();
 });
+
+
+// User Interactions: Input validation
+test('does not add a task when input is empty', () => {
+  render(<App />);
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.click(addButton);
+  expect(screen.queryByTestId('todo-item-0')).not.toBeInTheDocument();
+});
+
+// State Management: Todo list updates
+test('updates todo list when a task is added', () => {
+  render(<App />);
+  const input = screen.getByTestId('task-input');
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.change(input, { target: { value: 'Task 1' } });
+  fireEvent.click(addButton);
+  expect(screen.queryByText('Task 1')).toBeInTheDocument();
+});
+
+// State Management: Edit mode state
+test('enters edit mode when edit button is clicked', () => {
+  render(<App />);
+  const input = screen.getByTestId('task-input');
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.change(input, { target: { value: 'Task 1' } });
+  fireEvent.click(addButton);
+  const editButton = screen.getByTestId('edit-button-0');
+  fireEvent.click(editButton);
+  expect(screen.getByTestId('edit-input-0')).toBeInTheDocument();
+});
+
+// State Management: Alert state
+test('shows alert when trying to add an empty task', () => {
+  render(<App />);
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.click(addButton);
+  expect(screen.queryByText('Task cannot be empty')).toBeInTheDocument();
+});
+
+// Edge Cases: Empty input handling
+test('does not add a task when input is only whitespace', () => {
+  render(<App />);
+  const input = screen.getByTestId('task-input');
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.change(input, { target: { value: '   ' } });
+  fireEvent.click(addButton);
+  expect(screen.queryByTestId('todo-item-0')).not.toBeInTheDocument();
+});
+
+// Edge Cases: Editing validation
+test('does not save an edited task if input is empty', () => {
+  render(<App />);
+  const input = screen.getByTestId('task-input');
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.change(input, { target: { value: 'Task 1' } });
+  fireEvent.click(addButton);
+  const editButton = screen.getByTestId('edit-button-0');
+  fireEvent.click(editButton);
+  const editInput = screen.getByTestId('edit-input-0');
+  fireEvent.change(editInput, { target: { value: '' } });
+  fireEvent.blur(editInput);
+  expect(screen.queryByText('Task 1')).toBeInTheDocument();
+});
+
+// Edge Cases: Multiple todos management
+test('manages multiple todos correctly', () => {
+  render(<App />);
+  const input = screen.getByTestId('task-input');
+  const addButton = screen.getByTestId('add-button');
+  fireEvent.change(input, { target: { value: 'Task 1' } });
+  fireEvent.click(addButton);
+  fireEvent.change(input, { target: { value: 'Task 2' } });
+  fireEvent.click(addButton);
+  expect(screen.queryByText('Task 1')).toBeInTheDocument();
+  expect(screen.queryByText('Task 2')).toBeInTheDocument();
+});
