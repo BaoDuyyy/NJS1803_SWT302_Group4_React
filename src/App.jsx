@@ -1,7 +1,5 @@
-import { Button, Form, ListGroup, Container, Row, Col, Navbar, Nav, NavDropdown } from "react-bootstrap";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from "react";
-import React from 'react';
+import React, { useState } from 'react';
+import { Navbar, Container, Nav, NavDropdown, Alert, Form, Row, Col, Button, ListGroup } from 'react-bootstrap';
 import TodoItem from './components/TodoItem';
 
 function App() {
@@ -9,11 +7,15 @@ function App() {
   const [task, setTask] = useState("");
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const addTask = () => {
     if (task.trim()) {
       setTasks([...tasks, { text: task, completed: false }]);
       setTask("");
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Task cannot be empty");
     }
   };
 
@@ -33,9 +35,11 @@ function App() {
   };
 
   const saveEdit = (index) => {
-    const newTasks = [...tasks];
-    newTasks[index].text = editText;
-    setTasks(newTasks);
+    if (editText.trim()) {
+      const newTasks = [...tasks];
+      newTasks[index].text = editText;
+      setTasks(newTasks);
+    }
     setEditIndex(null);
   };
 
@@ -65,6 +69,13 @@ function App() {
         <Row className="justify-content-center">
           <Col md={4}>
             <h2 className="text-center">Todo List</h2>
+
+            {errorMessage && (
+              <Alert variant="danger" data-testid="alert-message">
+                {errorMessage}
+              </Alert>
+            )}
+
             <Form>
               <Row className="mb-3">
                 <Col xs={9} className="pe-0">
@@ -83,7 +94,7 @@ function App() {
                 </Col>
               </Row>
             </Form>
-            
+
             <ListGroup>
               {tasks.map((t, index) => (
                 <TodoItem
