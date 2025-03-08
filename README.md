@@ -15,13 +15,13 @@ This is a simple To Do List application built with React and Bootstrap. The appl
 ## Installation
 
 1. Clone the repository:
- git clone HTTPS_link
+ git clone HTTPS_link, 
 cd NJS1803_SWT302_Group4_React
 3. Install the dependencies:
 npm install
 ## Running the Application
 To start the development server, run:
-npm run dev
+npm run dev, 
 To start testing the developing server, run:
 npm test
 
