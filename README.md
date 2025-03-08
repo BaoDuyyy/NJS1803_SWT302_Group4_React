@@ -1,17 +1,28 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# To Do List App
 
-Currently, two official plugins are available:
+This is a simple To Do List application built with React and Bootstrap. The application allows users to add, edit, complete, and delete tasks. It also includes a set of unit tests to ensure the functionality of the app.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- Add new tasks
+- Mark tasks as complete
+- Edit existing tasks
+- Delete tasks
+- Display error messages for invalid inputs
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
 
+1. Clone the repository:
+ git clone <repository-url>
+    cd <repository-directory>
+2. Install the dependencies:
 
-Testing: npm test
+npm install
+## Running the Application
+To start the development server, run:
+npm run dev
+To start testing the developing server, run:
+npm test
 
-NJS1803-Group4
